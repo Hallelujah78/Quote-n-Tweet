@@ -1,5 +1,7 @@
 // components
-import QuoteText from "./components/QuoteText";
+import QuoteText from "./components/QuoteText.tsx";
+import Author from "./components/Author.tsx";
+import NewQuote from "./components/NewQuote.tsx";
 
 // styles
 import { GlobalStyle } from "./styles/GlobalStyles.tsx";
@@ -9,7 +11,8 @@ import styled from "styled-components";
 import useQuoteFetch from "./hooks/useQuoteFetch";
 
 const App: React.FC = () => {
-  const { isLoading, isError, state } = useQuoteFetch();
+  const { isLoading, isError, state, getQuotes } = useQuoteFetch();
+  const { quote, author } = state;
   if (isLoading)
     return (
       <>
@@ -25,22 +28,24 @@ const App: React.FC = () => {
     );
   return (
     <Wrapper>
-      <GlobalStyle />
+      <div className="container">
+        <GlobalStyle />
 
-      <QuoteText quote={state.quote} />
+        <QuoteText quote={quote} />
 
-      {/* <Author author={state.author} />
+        <Author author={author} />
 
-      <NewQuote text="New Quote" callback={getQuotes} />
-
+        <NewQuote text="New Quote" getQuotes={getQuotes} />
+        {/*
       <TweetQuote id="tweet-quote" author={state.author} quote={state.quote} /> */}
+      </div>
     </Wrapper>
   );
 };
 
 export default App;
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   margin: 0 auto;
   align-items: center;
   display: flex;
@@ -49,16 +54,14 @@ export const Wrapper = styled.div`
   /* background: #FFC133; */
   justify-content: center;
   position: relative;
-`;
-
-export const Content = styled.div`
-  border-radius: 10px;
-  background: #fff;
-
-  height: auto;
-  width: 85vw;
-  margin: auto;
-  align-items: center;
-  display: inline-block;
-  justify-content: center;
+  .container {
+    border-radius: 10px;
+    background: #fff;
+    height: auto;
+    width: 85vw;
+    margin: auto;
+    align-items: center;
+    display: inline-block;
+    justify-content: center;
+  }
 `;

@@ -3,7 +3,7 @@ import reset from "styled-reset";
 
 export const GlobalStyle = createGlobalStyle`
 ${reset}
-:root{
+*, :root{
   --maxWidth: 1280px;
   --white: #fff;
   --lightGrey: #eee;
@@ -14,21 +14,20 @@ ${reset}
   --fontMed: 1.2rem;
   --fontSmall: 1rem;
    font-family: "Abel", sans-serif;
-  font-weight: 400;
+  /* font-weight: 400; */
   font-style: normal;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body{
-    
   h1{ font-size: 2rem;
     font-weight: 600;
     color: var(--white);
   }
-
   h3{
     font-size: 1.1rem;
     font-weight: 600;
-
   }
-
 }`;

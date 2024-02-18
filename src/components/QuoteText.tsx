@@ -7,7 +7,9 @@ type QuoteProps = {
 const QuoteText: React.FC<QuoteProps> = ({ quote }) => {
   return (
     <Wrapper>
-      <p>{quote}</p>
+      <span className="container">
+        <p>{quote}</p>
+      </span>
     </Wrapper>
   );
 };
@@ -22,11 +24,24 @@ const Wrapper = styled.span`
   align-items: center;
   height: auto;
   width: auto;
-  p {
-    font-size: 2.2rem;
-    color: #ffc133;
-    padding-left: 0.7rem;
-    padding-right: 0.7rem;
-    text-align: center;
+  .container {
+    background: #fff;
+    align-items: center;
+    height: auto;
+    width: auto;
+    margin: 0 auto;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+
+    p {
+      margin: 2.2rem 0;
+      font-size: 2.2rem;
+      color: #ffc133;
+      padding-left: 0.7rem;
+      padding-right: 0.7rem;
+      text-align: center;
+    }
   }
 `;
