@@ -2,12 +2,15 @@
 import QuoteText from "./components/QuoteText.tsx";
 import Author from "./components/Author.tsx";
 import NewQuote from "./components/NewQuote.tsx";
+import XQuote from "./components/XQuote.tsx";
 
 // styles
 import { GlobalStyle } from "./styles/GlobalStyles.tsx";
 
 // third party
 import styled from "styled-components";
+
+// hooks
 import useQuoteFetch from "./hooks/useQuoteFetch";
 
 const App: React.FC = () => {
@@ -36,9 +39,8 @@ const App: React.FC = () => {
         <Author author={author} />
 
         <NewQuote text="New Quote" getQuotes={getQuotes} />
-        {/*
-      <TweetQuote id="tweet-quote" author={state.author} quote={state.quote} /> */}
       </div>
+      <XQuote author={author} quote={quote} />
     </Wrapper>
   );
 };
@@ -47,21 +49,11 @@ export default App;
 
 const Wrapper = styled.div`
   margin: 0 auto;
-  align-items: center;
-  display: flex;
+  place-content: center;
+  display: grid;
   height: 100vh;
   width: 100vw;
-  /* background: #FFC133; */
-  justify-content: center;
-  position: relative;
   .container {
-    border-radius: 10px;
-    background: #fff;
-    height: auto;
     width: 85vw;
-    margin: auto;
-    align-items: center;
-    display: inline-block;
-    justify-content: center;
   }
 `;
