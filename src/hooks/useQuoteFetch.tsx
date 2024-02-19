@@ -1,37 +1,36 @@
 // react
 import { useState, useEffect, useRef, useCallback } from "react";
+
+// models
 import { State } from "../models/state.model";
+
+// utils
 import { getRandomArbitrary } from "../utils/utils";
 
-const QUOTE_URL =
-  "https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json";
-
-const initialState = {
-  quotes: [],
-  quote: "",
-  author: "",
-};
+// configuration
+import { QUOTE_URL, initialState } from "../config/config";
 
 const useQuoteFetch = () => {
-  const [isError, setIsError] = useState(false);
+  const [isError, setIsError] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [state, setState] = useState<State>(initialState);
-  const abortControllerRef = useRef<AbortController>(null);
+  const abortControllerRef = useRef<AbortController>();
 
   const getQuotes = useCallback(async () => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
     const controller = new AbortController();
-    setIsError(false);
+    abortControllerRef.current = controller;
+    // setIsError(false);
     setIsLoading(true);
+    setState(initialState);
     try {
       const response = await fetch(QUOTE_URL, {
         signal: controller.signal,
       });
       const myQuotes = await response.json();
       if (myQuotes) {
-        console.log(myQuotes.quotes[0]);
         const quoteIndex = getRandomArbitrary(0, myQuotes.quotes.length);
 
         setState({
@@ -41,10 +40,14 @@ const useQuoteFetch = () => {
         });
       }
     } catch (error) {
-      console.log(error);
-      setIsError(true);
+      if (error instanceof Error) {
+        if (error.name !== "AbortError") {
+          setIsError(true);
+        }
+      }
     }
     setIsLoading(false);
+    setIsError(true);
   }, []);
 
   useEffect(() => {

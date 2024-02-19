@@ -22,13 +22,12 @@ const XQuote: React.FC<XQuoteProps> = ({ quote, author }) => {
 export default XQuote;
 
 const Wrapper = styled.div`
-  margin-top: 10rem;
-
   height: auto;
-  text-align: center;
+  text-align: right;
+  padding-top: 0.75rem;
   .x-icon {
     font-size: 2rem;
-    margin: auto;
+    margin: auto 1.25rem auto auto;
     transition: 0.4s;
     color: black;
     transition: linear 0.3s all;

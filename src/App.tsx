@@ -3,6 +3,8 @@ import QuoteText from "./components/QuoteText.tsx";
 import Author from "./components/Author.tsx";
 import NewQuote from "./components/NewQuote.tsx";
 import XQuote from "./components/XQuote.tsx";
+import Error from "./components/Error.tsx";
+import Loading from "./components/Loading.tsx";
 
 // styles
 import { GlobalStyle } from "./styles/GlobalStyles.tsx";
@@ -14,33 +16,29 @@ import styled from "styled-components";
 import useQuoteFetch from "./hooks/useQuoteFetch";
 
 const App: React.FC = () => {
-  const { isLoading, isError, state, getQuotes } = useQuoteFetch();
+  const { isLoading, state, getQuotes } = useQuoteFetch();
   const { quote, author } = state;
-  if (isLoading)
-    return (
-      <>
-        <div>Loading...</div>
-      </>
-    );
-
-  if (isError)
-    return (
-      <>
-        <div>Something went wrong...</div>
-      </>
-    );
+  console.log(`the value of quote is: ${quote}`);
   return (
     <Wrapper>
-      <div className="container">
-        <GlobalStyle />
+      <GlobalStyle />
 
-        <QuoteText quote={quote} />
+      {quote ? (
+        <>
+          <div className="container">
+            <QuoteText quote={quote} />
 
-        <Author author={author} />
+            <Author author={author} />
 
-        <NewQuote text="New Quote" getQuotes={getQuotes} />
-      </div>
-      <XQuote author={author} quote={quote} />
+            <NewQuote text="New Quote" getQuotes={getQuotes} />
+          </div>
+          <XQuote author={author} quote={quote} />
+        </>
+      ) : isLoading ? (
+        <Loading />
+      ) : (
+        <Error />
+      )}
     </Wrapper>
   );
 };
