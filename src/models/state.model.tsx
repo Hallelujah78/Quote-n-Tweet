@@ -1,5 +1,7 @@
+import { Quote } from "./quote.model";
+
 export interface State {
-  quotes: { quote: string; author: string }[];
+  quotes: Quote[];
   quote: string;
   author: string;
 }

@@ -10,9 +10,12 @@ import { getRandomArbitrary } from "../utils/utils";
 // configuration
 import { QUOTE_URL, initialState } from "../config/config";
 
+// models
+import { Quote } from "../models/quote.model";
+
 const useQuoteFetch = () => {
-  const [isError, setIsError] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [state, setState] = useState<State>(initialState);
   const abortControllerRef = useRef<AbortController>();
 
@@ -22,14 +25,15 @@ const useQuoteFetch = () => {
     }
     const controller = new AbortController();
     abortControllerRef.current = controller;
-    // setIsError(false);
+
     setIsLoading(true);
-    setState(initialState);
+    // setState(initialState);
     try {
       const response = await fetch(QUOTE_URL, {
         signal: controller.signal,
       });
-      const myQuotes = await response.json();
+      const myQuotes: { quotes: Quote[] } = await response.json();
+
       if (myQuotes) {
         const quoteIndex = getRandomArbitrary(0, myQuotes.quotes.length);
 
@@ -47,7 +51,6 @@ const useQuoteFetch = () => {
       }
     }
     setIsLoading(false);
-    setIsError(true);
   }, []);
 
   useEffect(() => {

@@ -16,28 +16,27 @@ import styled from "styled-components";
 import useQuoteFetch from "./hooks/useQuoteFetch";
 
 const App: React.FC = () => {
-  const { isLoading, state, getQuotes } = useQuoteFetch();
-  const { quote, author } = state;
-  console.log(`the value of quote is: ${quote}`);
+  const { isError, state, getQuotes } = useQuoteFetch();
+
   return (
     <Wrapper>
       <GlobalStyle />
 
-      {quote ? (
+      {state.quote ? (
         <>
           <div className="container">
-            <QuoteText quote={quote} />
+            <QuoteText quote={state.quote} />
 
-            <Author author={author} />
+            <Author author={state.author} />
 
             <NewQuote text="New Quote" getQuotes={getQuotes} />
           </div>
-          <XQuote author={author} quote={quote} />
+          <XQuote author={state.author} quote={state.quote} />
         </>
-      ) : isLoading ? (
-        <Loading />
-      ) : (
+      ) : isError ? (
         <Error />
+      ) : (
+        <Loading />
       )}
     </Wrapper>
   );
