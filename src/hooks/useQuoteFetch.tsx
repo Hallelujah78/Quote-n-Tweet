@@ -48,8 +48,9 @@ const useQuoteFetch = () => {
           setIsError(true);
         }
       }
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
   useEffect(() => {
