@@ -1,7 +1,7 @@
 import styled from "styled-components";
 const Loading = () => {
   return (
-    <Wrapper>
+    <Wrapper data-test="loading-spinner">
       <div className="lds-ring">
         <div></div>
         <div></div>

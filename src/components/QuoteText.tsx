@@ -8,7 +8,7 @@ const QuoteText: React.FC<QuoteProps> = ({ quote }) => {
   return (
     <Wrapper>
       <span className="container">
-        <p>{quote}</p>
+        <p data-test="quote-text">{quote}</p>
       </span>
     </Wrapper>
   );

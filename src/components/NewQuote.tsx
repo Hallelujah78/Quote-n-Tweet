@@ -6,7 +6,11 @@ type NewQuoteProps = {
 };
 
 const NewQuote: React.FC<NewQuoteProps> = ({ text, getQuotes }) => {
-  return <Wrapper onClick={getQuotes}>{text}</Wrapper>;
+  return (
+    <Wrapper data-test="new-quote" onClick={getQuotes}>
+      {text}
+    </Wrapper>
+  );
 };
 export default NewQuote;
 

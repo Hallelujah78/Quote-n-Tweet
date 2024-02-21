@@ -7,7 +7,7 @@ type AuthorProps = {
 const Author: React.FC<AuthorProps> = ({ author }) => {
   return (
     <Wrapper>
-      <p id="author">{`- ${author}`}</p>
+      <p data-test="author" id="author">{`- ${author}`}</p>
     </Wrapper>
   );
 };
