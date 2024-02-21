@@ -14,8 +14,8 @@ import { QUOTE_URL, initialState } from "../config/config";
 import { Quote } from "../models/quote.model";
 
 const useQuoteFetch = () => {
-  const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [state, setState] = useState<State>(initialState);
   const abortControllerRef = useRef<AbortController>();
 
@@ -26,15 +26,14 @@ const useQuoteFetch = () => {
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
-    setIsLoading(true);
-    // setState(initialState);
     try {
+      setIsLoading(true);
       const response = await fetch(QUOTE_URL, {
         signal: controller.signal,
       });
       const myQuotes: { quotes: Quote[] } = await response.json();
 
-      if (myQuotes) {
+      if (myQuotes.quotes.length >= 1) {
         const quoteIndex = getRandomArbitrary(0, myQuotes.quotes.length);
 
         setState({
@@ -55,6 +54,7 @@ const useQuoteFetch = () => {
 
   useEffect(() => {
     const currentController = abortControllerRef.current;
+
     getQuotes();
     return () => {
       currentController?.abort();

@@ -14,7 +14,6 @@ ${reset}
   --fontMed: 1.2rem;
   --fontSmall: 1rem;
    font-family: "Abel", sans-serif;
-  /* font-weight: 400; */
   font-style: normal;
   margin: 0;
   padding: 0;

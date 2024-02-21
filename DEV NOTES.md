@@ -20,3 +20,11 @@
 - we have an author for the text
 - we have a button that allows the user to post the quote to X with the author
 - we have a button to fetch a new quote from the API
+
+## Issues
+
+- Conditional rendering is not working as expected
+- isLoading is true by default
+- the loading spinner should display on hard refresh/first load with cache disabled and fast/slow 3G but it does not
+  - this is fixed
+  - loading spinner displaying even with caching enabled
