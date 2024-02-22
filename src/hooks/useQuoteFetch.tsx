@@ -20,16 +20,10 @@ const useQuoteFetch = () => {
   const abortControllerRef = useRef<AbortController>();
 
   const getQuotes = useCallback(async () => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
-
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const response = await fetch(QUOTE_URL, {
-        signal: controller.signal,
+        signal: abortControllerRef?.current?.signal,
       });
       const myQuotes: { quotes: Quote[] } = await response.json();
 
@@ -41,24 +35,26 @@ const useQuoteFetch = () => {
           quote: myQuotes.quotes[quoteIndex].quote,
           author: myQuotes.quotes[quoteIndex].author,
         });
+        setIsLoading(false);
       }
     } catch (error) {
       if (error instanceof Error) {
         if (error.name !== "AbortError") {
           setIsError(true);
+          setIsLoading(false);
         }
       }
-    } finally {
-      setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    const currentController = abortControllerRef.current;
+    abortControllerRef.current = new AbortController();
 
     getQuotes();
     return () => {
-      currentController?.abort();
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
     };
   }, [getQuotes]);
 

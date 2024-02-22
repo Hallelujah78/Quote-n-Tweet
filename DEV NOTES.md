@@ -25,6 +25,8 @@
 
 ### StrictMode AbortController and cy.intercept
 
+\*\*\*THIS IS FIXED
+
 - we have a request that fires in a useEffect on first render only
 - with React.StrictMode this gets fired twice and the first request gets aborted since we immediately make a second request
 - the issue here is our test is flaky
@@ -32,3 +34,48 @@
 - if we disable StrictMode the test seems to always pass
 - can't seem to find best practice here
 - possible solution: https://blog.dai.codes/cypress-loading-state-tests/#:~:text=The%20problem%20here%20is%20that,and%20the%20test%20will%20fail.
+- the above didn't fix
+- https://www.cypress.io/blog/2021/01/26/when-can-the-test-blink
+
+  - the suggested solution is adding `delayMs` but this has been tried
+
+- Disabling StrictMode and run the test 20 times:
+
+```js
+ Cypress._.times(20, (k) => { it.only(...)})
+```
+
+- it passes every time
+- enabling strict mode with AbortController and 40ms delay
+  - passes 2 times and fails 20!
+- commenenting out all AbortController related code in the app, our tests pass 20/20
+- Updated App.tsx whereby if isLoading, isError and state.quotes.length >= 1 all turn out to be falsy
+  **_SOlUTION_**
+- the problem code:
+
+```js
+const getQuotes = useCallback(async () => {
+    setIsLoading(true);
+    ...
+ try {
+     ...
+      }
+     catch (error) {
+      if (error instanceof Error) {
+        if (error.name !== "AbortError") {
+          setIsError(true);
+          setIsLoading(false);
+        }
+      }
+    }
+    setIsLoading(false);
+  }, []);
+```
+
+- I set loading to true when I call my fetch (getQuotes)
+- I set loading to false in the catch block if the error is NOT an AbortError
+- I set loading to false at the end outside the try-catch
+- the issue here is we are aborting the first request due to StrictMode
+- if we add a console.log after the try-catch, we see it runs even where a request is aborted! - hence isLoading is being set to false even when the request is aborted
+- the solution is to add `setIsLoading(false)` inside the try block after we update state and don't set the loading state after the try-catch at all
+- production build also passing 20/20
