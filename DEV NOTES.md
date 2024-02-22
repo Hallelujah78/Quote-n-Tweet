@@ -23,8 +23,12 @@
 
 ## Issues
 
-- Conditional rendering is not working as expected
-- isLoading is true by default
-- the loading spinner should display on hard refresh/first load with cache disabled and fast/slow 3G but it does not
-  - this is fixed
-  - loading spinner displaying even with caching enabled
+### StrictMode AbortController and cy.intercept
+
+- we have a request that fires in a useEffect on first render only
+- with React.StrictMode this gets fired twice and the first request gets aborted since we immediately make a second request
+- the issue here is our test is flaky
+- by adding a delay of 1000ms to our cy.intercept reply, the test mostly passes but often fails to find the loading spinner
+- if we disable StrictMode the test seems to always pass
+- can't seem to find best practice here
+- possible solution: https://blog.dai.codes/cypress-loading-state-tests/#:~:text=The%20problem%20here%20is%20that,and%20the%20test%20will%20fail.
