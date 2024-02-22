@@ -14,7 +14,7 @@ const XQuote: React.FC<XQuoteProps> = ({ quote, author }) => {
         rel="noopener noreferrer"
         href={`https://twitter.com/intent/tweet?text=${quote} - ${author}`}
       >
-        <FaSquareXTwitter className="x-icon" />
+        <FaSquareXTwitter data-test="x-icon" className="x-icon" />
       </a>
     </Wrapper>
   );
