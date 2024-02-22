@@ -1,7 +1,17 @@
 {
+  "description": "Revisiting one of my first apps in order to practice TypeScript and Cypress testing",
+  "author": {
+    "name": "Gavan Browne",
+    "email": "gavan.browne@gmail.com",
+    "url": "https://gwib-personal-portfolio-react.netlify.app/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hallelujah78/Quote-n-Tweet"
+  },
   "name": "random-quote-ts-react",
   "private": false,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
